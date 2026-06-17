@@ -49,12 +49,12 @@ class FileLinkReplaceExtensionTest extends FunctionalTest
         parent::tearDown();
     }
 
-    public function testFileLinkReplace()
+    public function testFileLinkReplace(): void
     {
         $testFile = $this->objFromFixture(File::class, 'example_file');
 
         $parser = ShortcodeParser::create();
-        $parser->register('file_link', [FileShortcodeProvider::class, 'handle_shortcode']);
+        $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
 
         $fileSimpleLink = sprintf('[file_link,id=%d]', $testFile->ID);
         $fileEnclosedWithHtml  = sprintf('<a href="[file_link,id=%d]" class="file" data-type="pdf" data-size="977 KB">Example Content</a>', $testFile->ID);
@@ -64,6 +64,7 @@ class FileLinkReplaceExtensionTest extends FunctionalTest
 
         $element->setFile($testFile);
         $element->setLinkHTML($linkHtml);
+
         $htmlExpected = $element
             ->renderWith([
                 ["type" => "Symbiote/ContentReplace", 'WYSIWYGFileLink'],

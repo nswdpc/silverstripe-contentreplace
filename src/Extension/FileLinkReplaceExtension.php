@@ -8,6 +8,9 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Assets\File;
 
+/**
+ * @extends \SilverStripe\Core\Extension<(\SilverStripe\View\Parsers\ShortcodeParser & static)>
+ */
 class FileLinkReplaceExtension extends Extension
 {
 
@@ -58,7 +61,7 @@ class FileLinkReplaceExtension extends Extension
      *
      * @return string
      */
-    private function replaceFileLinkWithTemplate(string $value)
+    private function replaceFileLinkWithTemplate(string $value): ?string
     {
         $fileIds = $this->fileIdsTmp;
         if ($fileIds == []) {
@@ -73,7 +76,7 @@ class FileLinkReplaceExtension extends Extension
             $fileMap[$file->getURL()] = $file;
         }
 
-        $res = preg_replace_callback(
+        return preg_replace_callback(
             // Match all a tags, even with nested child html tags
             '#<a.*?href=\"(.*?)\".*?>(?:.(?!\<\/a\>))*.<\/a>#i',
             function (array $matches) use ($fileMap): string {
@@ -102,7 +105,5 @@ class FileLinkReplaceExtension extends Extension
             },
             $value
         );
-
-        return $res;
     }
 }

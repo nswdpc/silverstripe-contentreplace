@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symbiote\ContentReplace\Model;
 
 use SilverStripe\Model\ModelData;
@@ -9,20 +11,12 @@ class WYSIWYGElement extends ModelData
 {
     /**
      * the HTML content inside link
-     *
-     * @var string
      */
-    protected $linkHTML = "";
+    protected string $linkHTML = "";
 
-    /**
-     * @var File|null
-     */
-    protected $file = null;
+    protected ?File $file = null;
 
-    /**
-     * @return File|null
-     */
-    public function getFile()
+    public function getFile(): ?File
     {
         return $this->file;
     }
@@ -30,21 +24,18 @@ class WYSIWYGElement extends ModelData
     /**
      * Set an HTML attributes on element
      */
-    public function setLinkHTML(string $linkHTML)
+    public function setLinkHTML(string $linkHTML): static
     {
         $this->linkHTML = $linkHTML;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLinkHTML()
+    public function getLinkHTML(): string
     {
         return $this->linkHTML;
     }
 
-    public function setFile(File $file)
+    public function setFile(File $file): static
     {
         $this->file = $file;
         return $this;
@@ -52,6 +43,7 @@ class WYSIWYGElement extends ModelData
 
     public function getFileId()
     {
-        return $this->file->ID;
+        $file = $this->getFile();
+        return $file ? $file->ID : null;
     }
 }
