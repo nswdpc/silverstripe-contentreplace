@@ -18,7 +18,8 @@
         }
     ],
     "require": {
-        "silverstripe/framework": "^6"
+        "silverstripe/framework": "^6",
+        "silverstripe/admin": "^3"
     },
     "require-dev": {
         "cambis/silverstripe-rector": "^2",
