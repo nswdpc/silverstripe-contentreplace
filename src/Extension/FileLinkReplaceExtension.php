@@ -13,7 +13,6 @@ use SilverStripe\Assets\File;
  */
 class FileLinkReplaceExtension extends Extension
 {
-
     protected array $fileIdsTmp = [];
 
     public function onBeforeParse(string &$content)
@@ -42,7 +41,7 @@ class FileLinkReplaceExtension extends Extension
             // Match file_link shorcode
             '#\[file_link.id=+([1-9]\d*)+]#i',
             function (array $matches): string {
-                if(isset($matches[1])) {
+                if (isset($matches[1])) {
                     // $val[0] - the shorcode, eg: [file_link,id=12]
                     // $val[1] - the file_link id, eg: 12
                     $this->fileIdsTmp[] = $matches[1];

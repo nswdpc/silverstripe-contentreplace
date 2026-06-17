@@ -6,8 +6,6 @@ use SilverStripe\Dev\FunctionalTest;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Shortcodes\FileShortcodeProvider;
 use SilverStripe\Assets\Dev\TestAssetStore;
-use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\Parsers\ShortcodeParser;
@@ -15,7 +13,6 @@ use Symbiote\ContentReplace\Model\WYSIWYGElement;
 
 class FileLinkReplaceExtensionTest extends FunctionalTest
 {
-
     protected static $fixture_file = 'FileLinkReplaceExtensionTest.yml';
 
     // Taken from "vendor/silverstripe/assets/tests/php/Shortcodes/FileShortcodeProviderTest.php"
