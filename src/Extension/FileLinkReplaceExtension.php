@@ -11,41 +11,44 @@ use SilverStripe\Assets\File;
 class FileLinkReplaceExtension extends Extension
 {
 
-    protected $fileIdsTmp = null;
+    protected array $fileIdsTmp = [];
 
-    public function onBeforeParse(&$content)
+    public function onBeforeParse(string &$content)
     {
         $isAdminPage = Controller::curr() instanceof LeftAndMain;
-
         if (!$isAdminPage) {
             $this->setfileIdsTmpIfFileLinkExists($content);
         }
     }
 
-    public function onAfterParse(&$content)
+    public function onAfterParse(string &$content)
     {
         $isAdminPage = Controller::curr() instanceof LeftAndMain;
-
         if (!$isAdminPage) {
             $content = $this->replaceFileLinkWithTemplate($content);
         }
     }
 
-    private function setfileIdsTmpIfFileLinkExists($value)
+    private function setfileIdsTmpIfFileLinkExists(string $value)
     {
         if ($this->fileIdsTmp) {
-            $this->fileIdsTmp = null;
+            $this->fileIdsTmp = [];
         }
 
         preg_replace_callback(
             // Match file_link shorcode
             '#\[file_link.id=+([1-9]\d*)+]#i',
-            function ($val) {
-                // $val[0] - the shorcode, eg: [file_link,id=12]
-                // $val[1] - the file_link id, eg: 12
-                $this->fileIdsTmp[] = $val[1];
+            function (array $matches): string {
+                if(isset($matches[1])) {
+                    // $val[0] - the shorcode, eg: [file_link,id=12]
+                    // $val[1] - the file_link id, eg: 12
+                    $this->fileIdsTmp[] = $matches[1];
+                    return $matches[1];
+                } else {
+                    return "";
+                }
             },
-            $value ?? ''
+            $value
         );
     }
 
@@ -55,10 +58,10 @@ class FileLinkReplaceExtension extends Extension
      *
      * @return string
      */
-    private function replaceFileLinkWithTemplate($value)
+    private function replaceFileLinkWithTemplate(string $value)
     {
         $fileIds = $this->fileIdsTmp;
-        if (!$fileIds) {
+        if ($fileIds == []) {
             return $value;
         }
 
@@ -73,10 +76,10 @@ class FileLinkReplaceExtension extends Extension
         $res = preg_replace_callback(
             // Match all a tags, even with nested child html tags
             '#<a.*?href=\"(.*?)\".*?>(?:.(?!\<\/a\>))*.<\/a>#i',
-            function ($val) use ($fileMap) {
+            function (array $matches) use ($fileMap): string {
                 // $val[0] - the link HTML tag, eg: <a href="link">text</a>
-                $linkHtml = $val[0];
-                $href = $val[1];
+                $linkHtml = $matches[0];
+                $href = $matches[1];
 
                 $element = WYSIWYGElement::create();
 

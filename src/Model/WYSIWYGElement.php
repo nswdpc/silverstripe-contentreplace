@@ -2,10 +2,10 @@
 
 namespace Symbiote\ContentReplace\Model;
 
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\ModelData;
 use SilverStripe\Assets\File;
 
-class WYSIWYGElement extends ViewableData
+class WYSIWYGElement extends ModelData
 {
     /**
      * the HTML content inside link

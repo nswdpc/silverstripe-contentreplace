@@ -5,7 +5,7 @@ namespace Symbiote\ContentReplace\Tests;
 use SilverStripe\Dev\FunctionalTest;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Shortcodes\FileShortcodeProvider;
-use Silverstripe\Assets\Dev\TestAssetStore;
+use SilverStripe\Assets\Dev\TestAssetStore;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataObject;
@@ -53,7 +53,7 @@ class FileLinkReplaceExtensionTest extends FunctionalTest
     {
         $testFile = $this->objFromFixture(File::class, 'example_file');
 
-        $parser = new ShortcodeParser();
+        $parser = ShortcodeParser::create();
         $parser->register('file_link', [FileShortcodeProvider::class, 'handle_shortcode']);
 
         $fileSimpleLink = sprintf('[file_link,id=%d]', $testFile->ID);
