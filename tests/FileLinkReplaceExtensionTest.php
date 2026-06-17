@@ -15,7 +15,8 @@ class FileLinkReplaceExtensionTest extends FunctionalTest
 {
     protected static $fixture_file = 'FileLinkReplaceExtensionTest.yml';
 
-    // Taken from "vendor/silverstripe/assets/tests/php/Shortcodes/FileShortcodeProviderTest.php"
+    protected $usesDatabase = true;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,7 +40,6 @@ class FileLinkReplaceExtensionTest extends FunctionalTest
         }
     }
 
-    // Taken from "vendor/silverstripe/assets/tests/php/Shortcodes/FileShortcodeProviderTest.php"
     protected function tearDown(): void
     {
         TestAssetStore::reset();
