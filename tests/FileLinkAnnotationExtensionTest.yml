@@ -1,0 +1,7 @@
+SilverStripe\Assets\File:
+  example_file:
+    FileFilename: example.pdf
+    Name: example.pdf
+  another_file:
+    FileFilename: another.pdf
+    Name: another.pdf
