@@ -167,7 +167,8 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         );
     }
 
-    public function testBareShortcodeWithDeletedFile(): void {
+    public function testBareShortcodeWithDeletedFile(): void
+    {
         $testFile = $this->objFromFixture(File::class, 'example_file');
         $id = $testFile->ID;
         $testFile->delete();
@@ -181,7 +182,8 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         );
     }
 
-    public function testBareInvalidShortcodeValues(): void {
+    public function testBareInvalidShortcodeValues(): void
+    {
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
         $this->assertEquals('', $parser->parse('[file_link]'), 'Test that invalid ID attributes are not parsed.');
@@ -189,7 +191,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         $this->assertEquals('', $parser->parse('[file_link,id="-1"]'), 'Short code is removed if file record is not present.');
     }
 
-    public function testBareIncompleteShortcode() : void
+    public function testBareIncompleteShortcode(): void
     {
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
@@ -202,7 +204,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         );
     }
 
-    public function testBareInvalidShortcode() : void
+    public function testBareInvalidShortcode(): void
     {
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
