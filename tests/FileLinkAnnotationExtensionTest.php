@@ -46,7 +46,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
             Configuration::class,
             'applicable_controllers',
             [
-                '\SilverStripe\Control\Controller'
+                \SilverStripe\Control\Controller::class
             ]
         );
     }
@@ -87,6 +87,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         $testFile = $this->objFromFixture(File::class, 'example_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
+
         $shortcodeValue = "[file_link,id={$testFile->ID}]";
         $this->assertEquals(
             $testFile->Link(),
@@ -107,6 +108,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         $testFile = $this->objFromFixture(File::class, 'example_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
+
         $shortcodeValue = "<a href=\"[file_link,id={$testFile->ID}]\" class=\"file\" data-type=\"pdf\" data-size=\"977 KB\">Example Content</a>";
         $expectedValue = "<a href=\"{$testFile->Link()}\" class=\"file\" data-type=\"pdf\" data-size=\"977 KB\">Example Content</a>";
         $this->assertEquals(
@@ -127,6 +129,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         $testFile = $this->objFromFixture(File::class, 'example_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
+
         $shortcodeValue  = "<a href=\"[file_link,id={$testFile->ID}]\" class=\"file\" data-type=\"pdf\" data-size=\"977 KB\">Example Content</a>";
         $htmlExpected = '<a href="/assets/FileLinkAnnotationExtensionTest/example.pdf" class="file" data-type="pdf" data-size="977 KB">Example Content</a><span data-annotated="1"> <strong>(PDF, 977 KB)</strong></span>';
         $this->assertEquals(
@@ -142,6 +145,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         $testAnotherFile = $this->objFromFixture(File::class, 'another_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
+
         $template  = <<<HTML
         <h1>Heading 1</h1>
         <p>Quisque ultricies quis elit at luctus. Praesent tincidunt dui nulla, at elementum nunc imperdiet sodales. Donec hendrerit erat bibendum elit facilisis sodales. Nam eu ultricies magna, non vehicula massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas sollicitudin tempus libero sed vestibulum. Duis eu placerat dui.</p>
@@ -163,7 +167,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         );
     }
 
-    public function testBareShortcodeWithDeletedFile() {
+    public function testBareShortcodeWithDeletedFile(): void {
         $testFile = $this->objFromFixture(File::class, 'example_file');
         $id = $testFile->ID;
         $testFile->delete();
@@ -177,7 +181,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
         );
     }
 
-    public function testBareInvalidShortcodeValues() {
+    public function testBareInvalidShortcodeValues(): void {
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
         $this->assertEquals('', $parser->parse('[file_link]'), 'Test that invalid ID attributes are not parsed.');
@@ -187,9 +191,9 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
 
     public function testBareIncompleteShortcode() : void
     {
-        $testFile = $this->objFromFixture(File::class, 'example_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
+
         $incompletedShortcodeValue = '[file_link]';
         $this->assertEquals(
             '',
@@ -200,9 +204,9 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
 
     public function testBareInvalidShortcode() : void
     {
-        $testFile = $this->objFromFixture(File::class, 'example_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
+
         $invalidShortcodeValue = '[file_link,id=5000]';
         $this->assertEquals(
             '',
@@ -213,10 +217,10 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
 
     public function testShortcodeInHtmlIncomplete(): void
     {
-        $testFile = $this->objFromFixture(File::class, 'example_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
-        $shortcodeValue = "<a href=\"[file_link]\" class=\"file\" data-type=\"pdf\" data-size=\"977 KB\">Example Content</a>";
+
+        $shortcodeValue = '<a href="[file_link]" class="file" data-type="pdf" data-size="977 KB">Example Content</a>';
         $htmlExpected = '<a href="" class="file" data-type="pdf" data-size="977 KB">Example Content</a>';
         $this->assertEquals(
             $htmlExpected,
@@ -227,10 +231,10 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
 
     public function testShortcodeInHtmlInvalid(): void
     {
-        $testFile = $this->objFromFixture(File::class, 'example_file');
         $parser = ShortcodeParser::create();
         $parser->register('file_link', FileShortcodeProvider::handle_shortcode(...));
-        $shortcodeValue = "<a href=\"[file_link id=5000]\" class=\"file\" data-type=\"pdf\" data-size=\"977 KB\">Example Content</a>";
+
+        $shortcodeValue = '<a href="[file_link id=5000]" class="file" data-type="pdf" data-size="977 KB">Example Content</a>';
         $htmlExpected = '<a href="" class="file" data-type="pdf" data-size="977 KB">Example Content</a>';
         $this->assertEquals(
             $htmlExpected,

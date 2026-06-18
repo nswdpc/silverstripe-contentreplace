@@ -1,10 +1,10 @@
-# [Silverstripe Content Replace]
+# Silverstripe Content Replace
 
-This module replaces certain tags in WYSIWYG content with SilverStripe templates.
+This module annotates/replaces shortcode content.
 
 Currently supports:
 
-* Replacing `file_link` shortcode with `Symbiote/ContentReplace/WYSIWYGFileLink.ss` template.
+* Annotates `file_link` shortcode with information including file extension and file size.
 
 ## Composer Install
 

@@ -31,6 +31,7 @@ class FileLinkAnnotationExtension extends Extension
                 }
             }
         }
+
         return false;
     }
 
@@ -74,7 +75,7 @@ class FileLinkAnnotationExtension extends Extension
     {
         // $pattern = '#\[file_link.id=+([1-9]\d*)+]#i';
         $pattern = '/\[file_link[\s,]+(?:[^\]]*?\s)?id=(["\']?)([1-9]\d*)\1[^\]]*\]/i';
-        $result = preg_match_all($pattern, $shortcodeValue, $matches);
+        preg_match_all($pattern, $shortcodeValue, $matches);
         return $matches;
     }
 
@@ -82,7 +83,7 @@ class FileLinkAnnotationExtension extends Extension
      * Annotates the shortcode value if the shortcode [file_link id=N] is part
      * of an HTML string
      */
-    protected static function annotateShortcodeValue(?string &$shortcodeValue)
+    protected static function annotateShortcodeValue(?string &$shortcodeValue): ?bool
     {
         if(is_null($shortcodeValue) || $shortcodeValue === '' || static::isShortcodeOnly($shortcodeValue)) {
             // Do not annotate bare shortcodes
@@ -92,32 +93,34 @@ class FileLinkAnnotationExtension extends Extension
         $matches = static::matchFileLinkShortcodes($shortcodeValue);
         $shortcodes = isset($matches[0]) && is_array($matches[0]) ? $matches[0] : [];
         $fileIds = isset($matches[2]) && is_array($matches[2]) ? $matches[2] : [];
-        if($shortcodes !== [] && count($shortcodes) == count($fileIds)) {
+        if($shortcodes !== [] && count($shortcodes) === count($fileIds)) {
             foreach($shortcodes as $i => $shortcode) {
                 $annotatedValue = "";
                 $file = null;
                 if(isset($fileIds[$i])) {
                     $file = static::getFile($fileIds[$i]);
                 }
+
                 if($file instanceof File) {
                     $annotation = ArrayData::create([
                         'File' => $file
                     ])->renderWith('Symbiote/ContentReplace/AnnotatedFileLink');
                     $annotation->setProcessShortcodes(false);
-                    $annotatedValue = trim($annotation->RAW());
+                    $annotatedValue = trim((string) $annotation->RAW());
                 }
 
                 if($annotatedValue !== "") {
                     // find out where to annotate
                     // ignore previously annotated tags to avoid duplicated annotations
                     // adds configured class to the annotation string
-                    $pattern = '/<a\s+[^>]*?href=["\']' . preg_quote($shortcode) . '["\'][^>]*>.*?<\/a>(?!<span data-annotated="1">)/i';
+                    $pattern = '/<a\s+[^>]*?href=["\']' . preg_quote((string) $shortcode) . '["\'][^>]*>.*?<\/a>(?!<span data-annotated="1">)/i';
                     // annotate the value onto the <a> tag containing the shortcode
                     $replacement = '$0' . ('<span data-annotated="1"> ' . $annotatedValue . '</span>');
-                    $shortcodeValue = preg_replace($pattern, $replacement, $shortcodeValue);
+                    $shortcodeValue = preg_replace($pattern, $replacement, (string) $shortcodeValue);
                 }
             }
         }
+        return null;
     }
 
 }

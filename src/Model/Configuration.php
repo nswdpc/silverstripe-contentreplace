@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symbiote\ContentReplace\Model;
 
 use SilverStripe\Core\Config\Configurable;
