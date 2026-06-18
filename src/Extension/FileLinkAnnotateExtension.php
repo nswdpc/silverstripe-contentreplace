@@ -82,9 +82,9 @@ class FileLinkAnnotationExtension extends Extension
      * Annotates the shortcode value if the shortcode [file_link id=N] is part
      * of an HTML string
      */
-    protected static function annotateShortcodeValue(string &$shortcodeValue)
+    protected static function annotateShortcodeValue(?string &$shortcodeValue)
     {
-        if($shortcodeValue === '' || static::isShortcodeOnly($shortcodeValue)) {
+        if(is_null($shortcodeValue) || $shortcodeValue === '' || static::isShortcodeOnly($shortcodeValue)) {
             // Do not annotate bare shortcodes
             return false;
         }
