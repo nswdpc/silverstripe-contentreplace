@@ -2,5 +2,6 @@
 Name: symbiote-contentreplace
 ---
 Symbiote\ContentReplace\Model\Configuration:
+  enabled: true
   applicable_controllers:
     - 'SilverStripe\CMS\Controllers\ContentController'

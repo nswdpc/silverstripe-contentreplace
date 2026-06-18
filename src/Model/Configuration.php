@@ -13,5 +13,7 @@ class Configuration
     use Injectable;
     use Configurable;
 
+    private static bool $enabled = true;
+
     private static array $applicable_controllers = [];
 }
