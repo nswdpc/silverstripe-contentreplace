@@ -1,6 +1,6 @@
 ---
-Name: contentreplace_config
+Name: symbiote-contentreplace-extensions
 ---
 SilverStripe\View\Parsers\ShortcodeParser:
   extensions:
-    - Symbiote\ContentReplace\Extension\FileLinkReplaceExtension
+    - Symbiote\ContentReplace\Extension\FileLinkAnnotationExtension
