@@ -7,7 +7,6 @@ use SilverStripe\Assets\File;
 use SilverStripe\Assets\Shortcodes\FileShortcodeProvider;
 use SilverStripe\Assets\Dev\TestAssetStore;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\Parsers\ShortcodeParser;
 use Symbiote\ContentReplace\Model\Configuration;
