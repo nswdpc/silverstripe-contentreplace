@@ -52,6 +52,7 @@ class FileLinkAnnotationExtension extends Extension
             $file = FileShortcodeProvider::find_shortcode_record(['id' => $fileId]);
             return $file instanceof File ? $file : null;
         }
+
         return null;
     }
 
