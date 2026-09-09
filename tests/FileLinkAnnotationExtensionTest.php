@@ -35,7 +35,7 @@ class FileLinkAnnotationExtensionTest extends FunctionalTest
             /**
              * @var File $file
             */
-            $file = DataObject::get_by_id(File::class, $fileID);
+            $file = \SilverStripe\Assets\File::get()->setUseCache(true)->byID($fileID);
             $file->setFromString(str_repeat('x', 1000000), $file->getFilename());
             $file->write();
             $file->publishRecursive();
